@@ -1,0 +1,8 @@
+1. Need to check - src\app\components\front-pages\layout.js
+2. Compare the UI of Both Comp Shedcn UI - 
+
+src\app\components\shadcn-ui
+
+src\app\components\ui-components
+
+src\app\components\headless-ui
