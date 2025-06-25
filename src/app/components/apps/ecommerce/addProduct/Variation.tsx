@@ -56,7 +56,7 @@ const Variation = () => {
               <TextInput
                 type="text"
                 sizing="md"
-                className="form-control"
+                className="form-rounded-md"
                 placeholder="Variation"
                 value={variation.value}
                 onChange={(e) => handleValueChange(variation.id, e)}

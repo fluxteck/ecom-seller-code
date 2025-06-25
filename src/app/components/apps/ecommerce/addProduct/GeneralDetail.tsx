@@ -20,13 +20,28 @@ const GeneralDetail = () => {
             id="prednm"
             type="text"
             sizing="md"
-            className="form-control"
+            className="form-rounded-md"
             placeholder="Product Name"
           />
           <small className="text-xs text-darklink">
             A product name is required and recommended to be unique.
           </small>
         </div>
+         <div className="">
+                        <div className="mb-2 block">
+                          <Label htmlFor="productcode" value="Product Code" />
+                          <span className="text-error ms-1">*</span>
+                        </div>
+                        <TextInput
+                          id="productcode"
+                          type="text"
+                          sizing="md"
+                          className="form-rounded-md"
+                        />
+                        <small className="text-xs text-darklink">
+                          Write the product code.
+                        </small>
+                      </div>
         <div>
           <div className="mb-2 block">
             <Label htmlFor="desc" value="Description" />

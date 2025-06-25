@@ -8,7 +8,9 @@ const ProductData = () => {
   const [tagInput, setTagInput] = useState<string>("");
 
   const [Cats, setCats] = useState<string[]>([]);
+  const [Type, setType] = useState<string[]>([]);
   const [showCatOptions, setShowCatOptions] = useState<boolean>(false);
+   const [showTypeOptions, setShowTypeOptions] = useState<boolean>(false);
   const [catOptions, setCatOptions] = useState<string[]>([
     "Computer",
     "Watches",
@@ -16,6 +18,13 @@ const ProductData = () => {
     "Beauty",
     "Fashion",
     "Footwear"
+  ]);
+
+    const [typeOptions, setTypeOptions] = useState<string[]>([
+    "Mens",
+    "Womens",
+    "Kids",
+    "Unisex"
   ]);
 
   const [showTagOptions, setShowTagOptions] = useState<boolean>(false);
@@ -45,9 +54,34 @@ const ProductData = () => {
     setShowCatOptions(false); // Hide category options after selecting an option
   };
 
+
+    const handleTypeInputChange = () => {
+    setShowTypeOptions(true); // Display category options when clicking in input
+  };
+
+  const handleTypeInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && Type.length > 0) {
+      setType([]);
+      setShowTypeOptions(false); // Hide category options after adding categories
+    }
+  };
+
+  const handleTypeClick = (option: string) => {
+    if (!Type.includes(option)) {
+      setType([...Type, option]); // Add selected option to categories if not already selected
+    }
+    setShowTypeOptions(false); // Hide category options after selecting an option
+  };
+
+
   const handleCatDelete = (catToDelete: string) => {
-    const updatedCats = Cats.filter((cat) => cat !== catToDelete);
-    setCats(updatedCats);
+    const updatedCat = Cats.filter((cat) => cat !== catToDelete);
+    setCats(updatedCat);
+  };
+
+  const handleTypeDelete = (catToDelete: string) => {
+    const updatedType = Type.filter((cat) => cat !== catToDelete);
+    setType(updatedType);
   };
 
   const handleTagInputChange = () => {
@@ -118,6 +152,57 @@ const ProductData = () => {
                 {cat}
                 <HiOutlineX 
                   onClick={() => handleCatDelete(cat)}
+                  className="cursor-pointer ml-1"
+                  size={12}
+                />
+              </span>
+            ))}
+          </div>
+        </div>
+       
+      </div>
+
+        <div className="">
+        <div className="mb-2 block">
+          <Label htmlFor="type" value="Product Type" />
+          <span className="text-error ms-1">*</span>
+        </div>
+        <div className="relative">
+          <TextInput
+            type="text"
+            id="type"
+            onFocus={handleTypeInputChange}
+            onKeyDown={handleTypeInputKeyDown}
+            className="form-control"
+          />
+           <small className="text-xs text-darklink">
+          Product type
+        </small>
+
+          <div className=" top-full left-0 mt-1 w-full bg-white dark:bg-dark rounded-md shadow-lg z-10 ">
+            {showTypeOptions && (
+              <div>
+                {typeOptions.map((option, index) => (
+                  <div
+                    key={index}
+                    className="py-2 px-3 bg-hover cursor-pointer"
+                    onClick={() => handleTypeClick(option)}
+                  >
+                    {option}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className=" top-0 left-0 mt-2 mr-2 flex gap-1 flex-wrap">
+            {Type.map((cat, index) => (
+              <span
+                key={index}
+                className="bg-lightprimary py-1 px-2 rounded-full text-primary flex items-center"
+              >
+                {cat}
+                <HiOutlineX 
+                  onClick={() => handleTypeDelete(cat)}
                   className="cursor-pointer ml-1"
                   size={12}
                 />

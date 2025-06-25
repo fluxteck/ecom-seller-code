@@ -10,6 +10,9 @@ import Status from "@/app/components/apps/ecommerce/addProduct/Status";
 import ProductData from "@/app/components/apps/ecommerce/addProduct/ProductData";
 import Producttemplate from "@/app/components/apps/ecommerce/addProduct/ProductTemplate";
 import { Metadata } from "next";
+import MetaData from "@/app/components/apps/ecommerce/addProduct/metaData";
+import ProductrChart from "@/app/components/apps/ecommerce/editProduct/ProductrChart";
+import ShippingDetails from "@/app/components/apps/ecommerce/addProduct/ShippingDetails";
 const BCrumb = [
   {
     to: "/",
@@ -37,19 +40,26 @@ const AddProduct = () => {
             <Variation />
             {/* Pricing  */}
             <Pricing />
+             {/* MetaData  */}
+            <MetaData />
+           
           </div>
         </div>
+
         <div className="lg:col-span-4 col-span-12">
           <div className="flex flex-col gap-30">
             {/* Thumbnail */}
-            <Thumbnail />
+            {/* <Thumbnail /> */}
             {/* Status */}
             <Status />
             {/* ProductData */}
             <ProductData />
             {/* Producttemplate */}
             <Producttemplate />
+            {/* ShippingDetails */}
+            <ShippingDetails />
           </div>
+
         </div>
         <div className="lg:col-span-8 col-span-12">
           <div className="sm:flex gap-3">

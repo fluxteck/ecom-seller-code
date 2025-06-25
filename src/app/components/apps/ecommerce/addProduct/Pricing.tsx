@@ -24,7 +24,7 @@ const Pricing = () => {
             id="prednm"
             type="text"
             sizing="md"
-            className="form-control"
+            className="form-rounded-md"
             placeholder="Product Price"
           />
           <small className="text-xs text-darklink">
@@ -156,7 +156,7 @@ const Pricing = () => {
                   <option selected>Select an option</option>
                   <option>Tax Free</option>
                   <option>Taxable Goods</option>
-                  <option>Downloadable Products</option>
+                
                 </Select>
                 <small className="text-xs text-darklink">
                   Set the product tax class.
@@ -166,17 +166,17 @@ const Pricing = () => {
             <div className="lg:col-span-6 col-span-12">
               <div className="">
                 <div className="mb-2 block">
-                  <Label htmlFor="vat" value="VAT Amount (%) " />
+                  <Label htmlFor="gst" value="GST Amount (%) " />
                   <span className="text-error ms-1">*</span>
                 </div>
                 <TextInput
-                  id="vat"
+                  id="gst"
                   type="text"
                   sizing="md"
-                  className="form-control"
+                  className="form-rounded-md"
                 />
                 <small className="text-xs text-darklink">
-                  Set the product VAT amount.
+                  Set the product GST %.
                 </small>
               </div>
             </div>
