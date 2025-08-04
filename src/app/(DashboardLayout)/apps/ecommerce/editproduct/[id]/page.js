@@ -1,37 +1,59 @@
 "use client";
 import React from "react";
-// import { useForm } from "react-hook-form";
 import BreadcrumbComp from "@/app/(DashboardLayout)/layout/shared/breadcrumb/BreadcrumbComp";
+import { Button } from "flowbite-react";
+import { useParams } from "next/navigation";
+// import { editProduct } from "ecommerce-sdk/product";
+import { editProduct } from "ecom-sdk/product";
+import MetaData from "@/app/components/apps/ecommerce/addProduct/metaData";
+import GeneralDetail from "@/app/components/apps/ecommerce/addProduct/GeneralDetail";
 import Media from "@/app/components/apps/ecommerce/addProduct/Media";
 import Variation from "@/app/components/apps/ecommerce/addProduct/Variation";
 import Pricing from "@/app/components/apps/ecommerce/addProduct/Pricing";
-import { Button } from "flowbite-react";
 import Status from "@/app/components/apps/ecommerce/addProduct/Status";
 import ProductData from "@/app/components/apps/ecommerce/addProduct/ProductData";
-import MetaData from "@/app/components/apps/ecommerce/addProduct/metaData";
 import ShippingDetails from "@/app/components/apps/ecommerce/addProduct/ShippingDetails";
-import GeneralDetail from "@/app/components/apps/ecommerce/addProduct/GeneralDetail";
-import { addProductToDB } from "ecom-sdk/product";
 
-const BCrumb = [{ to: "/", title: "Home" }, { title: "Add Product" }];
+const BCrumb = [
+  {
+    to: "/",
+    title: "Home",
+  },
+  {
+    title: "Edit Product",
+  },
+];
 
-const AddProduct = () => {
+const EditProduct = () => {
+  const { id } = useParams();
   const {
     register,
     handleSubmit,
+    onSubmit,
     setValue,
     getValues,
     formState,
-    control,
-    watch,
     Controller,
+    watch,
+    control,
     reset,
-    onSubmit,
     formState: { errors },
-  } = addProductToDB();
+    loading,
+    error,
+    data,
+  } = editProduct(id);
+  // console.log(getValues("variations"));
+  console.log(error);
 
+  function handleCancel() {
+    // console.log("in");
+
+    reset();
+  }
   const submitAndHandle = async (formData) => {
-    console.log(formData);
+    // console.log("in");
+
+    // console.log(formData);
 
     const { result, error } = await onSubmit(formData);
 
@@ -39,15 +61,25 @@ const AddProduct = () => {
       console.error("❌ Product submission failed:", error);
       return;
     } else {
-      reset();
       console.log("✅ Product added:", result);
       // Use the returned result however you want
     }
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    console.log(error);
+
+    return <div>Error:{error ? "error" : "Something went wrong"}</div>;
+  }
+  if (!data) {
+    return <div>No product data found</div>;
+  }
   return (
     <>
-      <BreadcrumbComp title="Add Product" items={BCrumb} />
+      <BreadcrumbComp title="Edit Product" items={BCrumb} />
       <form onSubmit={handleSubmit(submitAndHandle)}>
         <div className="grid grid-cols-12 gap-30">
           <div className="lg:col-span-8 col-span-12">
@@ -85,9 +117,9 @@ const AddProduct = () => {
               />
             </div>
           </div>
-
           <div className="lg:col-span-4 col-span-12">
             <div className="flex flex-col gap-30">
+              {/* <Thumbnail /> */}
               <Status
                 register={register}
                 errors={errors}
@@ -112,17 +144,20 @@ const AddProduct = () => {
               />
             </div>
           </div>
-
           <div className="lg:col-span-8 col-span-12">
             <div className="sm:flex gap-3">
               <Button
                 color={"primary"}
-                className="sm:mb-0 mb-3 w-fit"
                 type="submit"
+                className="sm:mb-0 mb-3 w-fit"
               >
                 Save changes
               </Button>
-              <Button color={"lighterror"} className="w-fit" type="button">
+              <Button
+                onClick={handleCancel}
+                color={"lighterror"}
+                className="w-fit"
+              >
                 Cancel
               </Button>
             </div>
@@ -133,4 +168,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;

@@ -8,6 +8,7 @@ import "../utils/i18n";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "@/app/components/shadcn-ui/Default-Ui/toaster";
 import { CustomizerContextProvider } from "./context/CustomizerContext";
+import { ProductsProvider } from "ecom-sdk/product";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,7 +31,10 @@ export default function RootLayout({
       <body className={`${inter.className}`}>
         <Flowbite theme={{ theme: customTheme }}>
           <NextTopLoader color="var(--color-primary)" />
-          <CustomizerContextProvider>{children}</CustomizerContextProvider>
+          <CustomizerContextProvider>
+            {" "}
+            <ProductsProvider>{children}</ProductsProvider>
+          </CustomizerContextProvider>
         </Flowbite>
         <Toaster />
       </body>

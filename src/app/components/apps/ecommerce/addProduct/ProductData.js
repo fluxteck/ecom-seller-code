@@ -4,9 +4,16 @@ import CardBox from "@/app/components/shared/CardBox";
 import { Button, Label, TextInput } from "flowbite-react";
 import { HiOutlinePlusSm, HiOutlineX } from "react-icons/hi";
 import useCategories from "@/hooks/products/use-categories";
-import { Controller } from "react-hook-form";
+// import { Controller } from "react-hook-form";
 
-const ProductData = ({ control, errors, setValue, getValues, isSubmitted }) => {
+const ProductData = ({
+  control,
+  errors,
+  setValue,
+  getValues,
+  isSubmitted,
+  Controller,
+}) => {
   const { categories, error, loading } = useCategories();
 
   const catRef = useRef(null);
@@ -163,7 +170,7 @@ const ProductData = ({ control, errors, setValue, getValues, isSubmitted }) => {
         <div className="relative">
           <Controller
             control={control}
-            name="productType"
+            name="product_type"
             rules={{
               required: "At least one product type is required",
               validate: (value) =>
@@ -244,9 +251,9 @@ const ProductData = ({ control, errors, setValue, getValues, isSubmitted }) => {
               </>
             )}
           />
-          {isSubmitted && errors.productType && (
+          {isSubmitted && errors.product_type && (
             <p className="text-error text-sm mt-1">
-              {errors.productType.message}
+              {errors.product_type.message}
             </p>
           )}
         </div>

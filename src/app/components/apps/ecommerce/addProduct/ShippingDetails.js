@@ -10,13 +10,13 @@ const ShippingDetails = ({ register, errors }) => {
         <div>
           {/* Unit Select for Dimensions */}
           <div className="mb-2 block">
-            <Label htmlFor="dimensionUnit" value="Select the Unit" />
+            <Label htmlFor="dimension_unit" value="Select the Unit" />
             <span className="text-error ms-1">*</span>
           </div>
           <Select
-            id="dimensionUnit"
+            id="dimension_unit"
             className="select-md"
-            {...register("dimensionUnit", {
+            {...register("dimension_unit", {
               required: "Dimension unit is required",
             })}
             defaultValue=""
@@ -28,9 +28,9 @@ const ShippingDetails = ({ register, errors }) => {
             <option value="Centimeter">Centimeter</option>
             <option value="Feet">Feet</option>
           </Select>
-          {errors.dimensionUnit && (
+          {errors.dimension_unit && (
             <p className="text-error text-xs mt-1">
-              {errors.dimensionUnit.message}
+              {errors.dimension_unit.message}
             </p>
           )}
 
@@ -106,13 +106,15 @@ const ShippingDetails = ({ register, errors }) => {
 
           {/* Unit Select for Weight */}
           <div className="mb-2 block mt-4">
-            <Label htmlFor="weightUnit" value="Select the Unit (Weight)" />
+            <Label htmlFor="weight_unit" value="Select the Unit (Weight)" />
             <span className="text-error ms-1">*</span>
           </div>
           <Select
-            id="weightUnit"
+            id="weight_unit"
             className="select-md"
-            {...register("weightUnit", { required: "Weight unit is required" })}
+            {...register("weight_unit", {
+              required: "Weight unit is required",
+            })}
             defaultValue=""
           >
             <option value="" disabled>
@@ -121,9 +123,9 @@ const ShippingDetails = ({ register, errors }) => {
             <option value="Kg">Kg</option>
             <option value="Gram">Gram</option>
           </Select>
-          {errors.weightUnit && (
+          {errors.weight_unit && (
             <p className="text-error text-xs mt-1">
-              {errors.weightUnit.message}
+              {errors.weight_unit.message}
             </p>
           )}
 

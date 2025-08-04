@@ -1,17 +1,97 @@
 "use client";
-import React, { useRef } from "react";
 import CardBox from "@/app/components/shared/CardBox";
-import { FileInput, Label } from "flowbite-react";
+import { FileInput, Label, Button } from "flowbite-react";
+import React, { useRef, useState } from "react";
 import { Icon } from "@iconify/react";
 
 const Media = ({ register, errors, setValue, getValues }) => {
   const fileInputRef = useRef(null);
 
+  const [files, setFiles] = useState([]);
+  const [previews, setPreviews] = useState([]);
+
   const handleFileChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setValue("media", file, { shouldValidate: true });
-    }
+    const selected = e.target.files;
+    if (!selected) return;
+
+    const fileArray = Array.from(selected);
+
+    const newPreviews = fileArray.map((file) => {
+      const fileType = file.type;
+      const url = fileType.startsWith("image/")
+        ? URL.createObjectURL(file)
+        : null;
+      return { file, url };
+    });
+
+    const existingMedia = getValues("media") || [];
+
+    const updatedMedia = [...existingMedia, ...fileArray];
+
+    setFiles((prev) => [...prev, ...fileArray]);
+    setPreviews((prev) => [...prev, ...newPreviews]);
+    setValue("media", updatedMedia, {
+      shouldValidate: true,
+    });
+  };
+
+  const removeFile = (index) => {
+    const updatedPreviews = previews.filter((_, i) => i !== index);
+    const updatedFiles = files.filter((_, i) => i !== index);
+    setPreviews(updatedPreviews);
+    setFiles(updatedFiles);
+    setValue("media", updatedFiles, { shouldValidate: true });
+  };
+
+  const clearAllFiles = () => {
+    setFiles([]);
+    setPreviews([]);
+    setValue("media", [], { shouldValidate: true });
+  };
+
+  const renderFilePreview = () => {
+    if (previews.length === 0) return null;
+
+    return (
+      <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        {previews.map(({ file, url }, index) => {
+          const fileType = file.type;
+          let icon = "mdi:file";
+          if (fileType.includes("pdf")) icon = "mdi:file-pdf-box";
+          else if (fileType.includes("zip") || fileType.includes("rar"))
+            icon = "mdi:folder-zip";
+          else if (fileType.includes("word")) icon = "mdi:file-word-box";
+          else if (fileType.includes("excel")) icon = "mdi:file-excel-box";
+
+          return (
+            <div
+              key={index}
+              className="relative flex flex-col items-center justify-center border rounded p-2 bg-white shadow"
+            >
+              {url ? (
+                <img
+                  src={url}
+                  alt={`preview-${index}`}
+                  className="h-24 w-24 object-cover rounded"
+                />
+              ) : (
+                <Icon icon={icon} height={48} className="text-gray-600" />
+              )}
+              <span className="text-xs mt-1 truncate max-w-[80px] text-center">
+                {file.name}
+              </span>
+              <button
+                onClick={() => removeFile(index)}
+                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                title="Remove"
+              >
+                <Icon icon="mdi:close" height={16} />
+              </button>
+            </div>
+          );
+        })}
+      </div>
+    );
   };
 
   return (
@@ -34,7 +114,7 @@ const Media = ({ register, errors, setValue, getValues }) => {
               drop
             </p>
             <p className="text-xs text-darklink">
-              SVG, PNG, JPG or GIF (MAX. 800x400px)
+              SVG, PNG, JPG, GIF, PDF, DOCX, ZIP (MAX. 800x400px)
             </p>
           </div>
           <FileInput
@@ -42,23 +122,21 @@ const Media = ({ register, errors, setValue, getValues }) => {
             className="hidden"
             ref={fileInputRef}
             onChange={handleFileChange}
-            accept="image/png, image/jpeg, image/jpg, image/svg+xml, image/gif"
+            accept="image/*,.pdf,.doc,.docx,.zip,.rar"
+            multiple
           />
         </Label>
       </div>
 
-      {/* Hidden input for react-hook-form */}
-      {/* <input
-        type="file"
-        className="hidden"
-        {...register("media", {
-          required: "An image file is required",
-        })}
-      />
+      {previews.length > 0 && (
+        <div className="mt-4 flex justify-end">
+          <Button size="xs" color="failure" onClick={clearAllFiles}>
+            Clear All
+          </Button>
+        </div>
+      )}
 
-      {errors.media && (
-        <p className="text-error text-sm mt-2">{errors.media.message}</p>
-      )} */}
+      {renderFilePreview()}
     </CardBox>
   );
 };

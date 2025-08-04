@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import { Link } from "@tiptap/extension-link";
@@ -16,6 +16,12 @@ import { Icon } from "@iconify/react";
 import "./Tiptap.css";
 
 const MyEditor = ({ register, setValue, errors, defaultValue = "" }) => {
+  const [defaultContent, setDefaultContent] = useState(
+    "<p>Start typing...</p>"
+  );
+
+  // console.log("defaultContent", defaultContent);
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -27,12 +33,19 @@ const MyEditor = ({ register, setValue, errors, defaultValue = "" }) => {
       ListItem,
       CodeBlockLowlight.configure({ lowlight }),
     ],
-    content: defaultValue || "<p>Start typing...</p>",
+
+    content: defaultContent,
     onUpdate: ({ editor }) => {
       setValue("description", editor.getHTML());
     },
   });
 
+  useEffect(() => {
+    if (editor && defaultValue) {
+      editor.commands.setContent(defaultValue);
+      setValue("description", defaultValue);
+    }
+  }, [defaultValue, editor, setValue]);
   // Ensure description field is registered
   useEffect(() => {
     register("description", { required: "Description is required" });

@@ -25,13 +25,13 @@ const Pricing = ({ register, setValue, watch, errors }) => {
 
       {/* Base Price */}
       <div className="mb-4">
-        <Label htmlFor="basePrice" value="Base Price" />
+        <Label htmlFor="base_price" value="Base Price" />
         <span className="text-error ms-1">*</span>
         <TextInput
-          id="basePrice"
+          id="base_price"
           type="text"
           placeholder="Product Price"
-          {...register("basePrice", {
+          {...register("base_price", {
             required: "Base price is required",
             pattern: {
               value: /^[0-9]+(\.[0-9]{1,2})?$/,
@@ -39,8 +39,8 @@ const Pricing = ({ register, setValue, watch, errors }) => {
             },
           })}
         />
-        {errors.basePrice && (
-          <p className="text-error text-sm">{errors.basePrice.message}</p>
+        {errors.base_price && (
+          <p className="text-error text-sm">{errors.base_price.message}</p>
         )}
         <small className="text-xs text-darklink">Set the product price.</small>
       </div>
@@ -138,11 +138,11 @@ const Pricing = ({ register, setValue, watch, errors }) => {
       {/* Tax Class & GST */}
       <div className="grid grid-cols-12 gap-6 mt-8">
         <div className="lg:col-span-6 col-span-12">
-          <Label htmlFor="taxClass" value="Tax Class" />
+          <Label htmlFor="tax_class" value="Tax Class" />
           <span className="text-error ms-1">*</span>
           <Select
-            id="taxClass"
-            {...register("taxClass", {
+            id="tax_class"
+            {...register("tax_class", {
               required: "Tax class is required",
             })}
           >
@@ -150,20 +150,20 @@ const Pricing = ({ register, setValue, watch, errors }) => {
             <option value="Tax Free">Tax Free</option>
             <option value="Taxable Goods">Taxable Goods</option>
           </Select>
-          {errors.taxClass && (
-            <p className="text-error text-sm">{errors.taxClass.message}</p>
+          {errors.tax_class && (
+            <p className="text-error text-sm">{errors.tax_class.message}</p>
           )}
           <small className="text-xs text-darklink">Set the tax class.</small>
         </div>
 
         <div className="lg:col-span-6 col-span-12">
-          <Label htmlFor="gstAmount" value="GST Amount (%)" />
+          <Label htmlFor="gst_amount" value="GST Amount (%)" />
           <span className="text-error ms-1">*</span>
           <TextInput
-            id="gstAmount"
+            id="gst_amount"
             type="text"
             placeholder="18"
-            {...register("gstAmount", {
+            {...register("gst_amount", {
               required: "GST amount is required",
               pattern: {
                 value: /^[0-9]+(\.[0-9]{1,2})?$/,
@@ -171,8 +171,8 @@ const Pricing = ({ register, setValue, watch, errors }) => {
               },
             })}
           />
-          {errors.gstAmount && (
-            <p className="text-error text-sm">{errors.gstAmount.message}</p>
+          {errors.gst_amount && (
+            <p className="text-error text-sm">{errors.gst_amount.message}</p>
           )}
           <small className="text-xs text-darklink">
             Set the GST percentage (e.g., 18).

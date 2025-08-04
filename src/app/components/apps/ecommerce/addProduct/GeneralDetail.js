@@ -18,17 +18,19 @@ const GeneralDetail = ({ register, errors, setValue, getValues }) => {
 
       {/* Product Name */}
       <div className="mb-4">
-        <Label htmlFor="productName" value="Product Name" />
+        <Label htmlFor="product_name" value="Product Name" />
         <span className="text-error ms-1">*</span>
         <TextInput
-          id="productName"
+          id="product_name"
           placeholder="Product Name"
-          {...register("productName", { required: "Product Name is required" })}
+          {...register("product_name", {
+            required: "Product Name is required",
+          })}
           className="form-rounded-md"
         />
-        {errors.productName && (
+        {errors.product_name && (
           <span className="text-error text-sm">
-            {errors.productName.message}
+            {errors.product_name.message}
           </span>
         )}
         <small className="text-xs text-darklink">
@@ -38,16 +40,18 @@ const GeneralDetail = ({ register, errors, setValue, getValues }) => {
 
       {/* Product Code */}
       <div className="mb-4">
-        <Label htmlFor="productCode" value="Product Code" />
+        <Label htmlFor="product_code" value="Product Code" />
         <span className="text-error ms-1">*</span>
         <TextInput
-          id="productCode"
-          {...register("productCode", { required: "Product Code is required" })}
+          id="product_code"
+          {...register("product_code", {
+            required: "Product Code is required",
+          })}
           className="form-rounded-md"
         />
-        {errors.productCode && (
+        {errors.product_code && (
           <span className="text-error text-sm">
-            {errors.productCode.message}
+            {errors.product_code.message}
           </span>
         )}
         <small className="text-xs text-darklink">Write the product code.</small>
