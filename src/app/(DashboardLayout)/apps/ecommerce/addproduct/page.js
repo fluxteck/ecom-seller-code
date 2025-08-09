@@ -31,7 +31,7 @@ const AddProduct = () => {
   } = addProductToDB();
 
   const submitAndHandle = async (formData) => {
-    console.log(formData);
+    // console.log(formData);
 
     const { result, error } = await onSubmit(formData);
 

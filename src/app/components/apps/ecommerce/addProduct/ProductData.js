@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import CardBox from "@/app/components/shared/CardBox";
 import { Button, Label, TextInput } from "flowbite-react";
 import { HiOutlinePlusSm, HiOutlineX } from "react-icons/hi";
-import useCategories from "@/hooks/products/use-categories";
+import { useCategories } from "ecom-sdk/categories";
 // import { Controller } from "react-hook-form";
 
 const ProductData = ({
