@@ -43,7 +43,7 @@ const EditProduct = () => {
     data,
   } = editProduct(id);
   // console.log(getValues("variations"));
-  console.log(error);
+  // console.log(error);
 
   function handleCancel() {
     // console.log("in");

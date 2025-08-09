@@ -23,10 +23,14 @@ import Link from "next/link";
 const ProductTablelist = () => {
   const { products, pagination, loading, error, fetchProducts } =
     useProductsContext();
+
+  // console.log(products);
+
   // console.log(products);
   // const router=useRouter()
 
   // console.log(products);
+  // console.log(error);
 
   useEffect(() => {
     if (!products.length) {

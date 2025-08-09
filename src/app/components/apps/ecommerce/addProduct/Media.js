@@ -3,44 +3,75 @@ import CardBox from "@/app/components/shared/CardBox";
 import { FileInput, Label, Button } from "flowbite-react";
 import React, { useRef, useState } from "react";
 import { Icon } from "@iconify/react";
+import { removeImages, uploadImages } from "ecom-sdk/product";
 
 const Media = ({ register, errors, setValue, getValues }) => {
   const fileInputRef = useRef(null);
+  // console.log(getValues());
 
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
+  const [images, setImages] = useState(getValues("product_images") || []);
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const selected = e.target.files;
     if (!selected) return;
-
+    const productId = getValues("id") || null;
     const fileArray = Array.from(selected);
+    try {
+      if (!productId) {
+        console.error("Product ID is required for uploading images.");
+        return;
+      }
+      const result = await uploadImages({
+        files: fileArray,
+        productId: productId,
+        onProgress: (progress) => console.log(progress),
+        onMessage: (msg) => console.log(msg),
+      });
+      console.log("✅ Upload success:", result);
+      setImages((prevImages) => [...prevImages, ...result]);
+    } catch (error) {
+      console.error("Error uploading files:", error);
+    }
 
-    const newPreviews = fileArray.map((file) => {
-      const fileType = file.type;
-      const url = fileType.startsWith("image/")
-        ? URL.createObjectURL(file)
-        : null;
-      return { file, url };
-    });
+    // const newPreviews = fileArray.map((file) => {
+    //   const fileType = file.type;
+    //   const url = fileType.startsWith("image/")
+    //     ? URL.createObjectURL(file)
+    //     : null;
+    //   return { file, url };
+    // });
 
-    const existingMedia = getValues("media") || [];
+    // const existingMedia = getValues("media") || [];
 
-    const updatedMedia = [...existingMedia, ...fileArray];
+    // const updatedMedia = [...existingMedia, ...fileArray];
 
-    setFiles((prev) => [...prev, ...fileArray]);
-    setPreviews((prev) => [...prev, ...newPreviews]);
-    setValue("media", updatedMedia, {
-      shouldValidate: true,
-    });
+    // setFiles((prev) => [...prev, ...fileArray]);
+    // setPreviews((prev) => [...prev, ...newPreviews]);
+    // setValue("media", updatedMedia, {
+    //   shouldValidate: true,
+    // });
   };
 
-  const removeFile = (index) => {
-    const updatedPreviews = previews.filter((_, i) => i !== index);
-    const updatedFiles = files.filter((_, i) => i !== index);
-    setPreviews(updatedPreviews);
-    setFiles(updatedFiles);
-    setValue("media", updatedFiles, { shouldValidate: true });
+  const removeFile = async (imageUrl, id) => {
+    console.log(imageUrl);
+
+    const { success, data, error } = await removeImages({ imageUrl, id });
+    if (success) {
+      setImages((prevImages) =>
+        prevImages.filter((img) => img.url !== imageUrl)
+      );
+      console.log("Image removed successfully:", data);
+    }
+    // console.log(data);
+    // console.log(error);
+
+    // const updatedPreviews = previews.filter((_, i) => i !== index);
+    // const updatedFiles = files.filter((_, i) => i !== index);
+    // setPreviews(updatedPreviews);
+    // setFiles(updatedFiles);
+    // setValue("media", updatedFiles, { shouldValidate: true });
   };
 
   const clearAllFiles = () => {
@@ -48,40 +79,27 @@ const Media = ({ register, errors, setValue, getValues }) => {
     setPreviews([]);
     setValue("media", [], { shouldValidate: true });
   };
-
   const renderFilePreview = () => {
-    if (previews.length === 0) return null;
+    if (images.length === 0) return null;
 
     return (
       <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-        {previews.map(({ file, url }, index) => {
-          const fileType = file.type;
-          let icon = "mdi:file";
-          if (fileType.includes("pdf")) icon = "mdi:file-pdf-box";
-          else if (fileType.includes("zip") || fileType.includes("rar"))
-            icon = "mdi:folder-zip";
-          else if (fileType.includes("word")) icon = "mdi:file-word-box";
-          else if (fileType.includes("excel")) icon = "mdi:file-excel-box";
-
+        {images.map((data, index) => {
           return (
             <div
               key={index}
               className="relative flex flex-col items-center justify-center border rounded p-2 bg-white shadow"
             >
-              {url ? (
-                <img
-                  src={url}
-                  alt={`preview-${index}`}
-                  className="h-24 w-24 object-cover rounded"
-                />
-              ) : (
-                <Icon icon={icon} height={48} className="text-gray-600" />
-              )}
-              <span className="text-xs mt-1 truncate max-w-[80px] text-center">
+              <img
+                src={data.url}
+                alt={`preview-${index}`}
+                className="h-24 w-24 object-cover rounded"
+              />
+              {/* <span className="text-xs mt-1 truncate max-w-[80px] text-center">
                 {file.name}
-              </span>
+              </span> */}
               <button
-                onClick={() => removeFile(index)}
+                onClick={() => removeFile(data.url, data.id)}
                 className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
                 title="Remove"
               >
@@ -93,6 +111,50 @@ const Media = ({ register, errors, setValue, getValues }) => {
       </div>
     );
   };
+  // const renderFilePreview = () => {
+  //   if (previews.length === 0) return null;
+
+  //   return (
+  //     <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+  //       {previews.map(({ file, url }, index) => {
+  //         const fileType = file.type;
+  //         let icon = "mdi:file";
+  //         if (fileType.includes("pdf")) icon = "mdi:file-pdf-box";
+  //         else if (fileType.includes("zip") || fileType.includes("rar"))
+  //           icon = "mdi:folder-zip";
+  //         else if (fileType.includes("word")) icon = "mdi:file-word-box";
+  //         else if (fileType.includes("excel")) icon = "mdi:file-excel-box";
+
+  //         return (
+  //           <div
+  //             key={index}
+  //             className="relative flex flex-col items-center justify-center border rounded p-2 bg-white shadow"
+  //           >
+  //             {url ? (
+  //               <img
+  //                 src={url}
+  //                 alt={`preview-${index}`}
+  //                 className="h-24 w-24 object-cover rounded"
+  //               />
+  //             ) : (
+  //               <Icon icon={icon} height={48} className="text-gray-600" />
+  //             )}
+  //             <span className="text-xs mt-1 truncate max-w-[80px] text-center">
+  //               {file.name}
+  //             </span>
+  //             <button
+  //               onClick={() => removeFile(index)}
+  //               className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+  //               title="Remove"
+  //             >
+  //               <Icon icon="mdi:close" height={16} />
+  //             </button>
+  //           </div>
+  //         );
+  //       })}
+  //     </div>
+  //   );
+  // };
 
   return (
     <CardBox>
@@ -122,7 +184,7 @@ const Media = ({ register, errors, setValue, getValues }) => {
             className="hidden"
             ref={fileInputRef}
             onChange={handleFileChange}
-            accept="image/*,.pdf,.doc,.docx,.zip,.rar"
+            accept="image/*"
             multiple
           />
         </Label>
