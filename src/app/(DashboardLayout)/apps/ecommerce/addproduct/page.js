@@ -2,7 +2,7 @@
 import React from "react";
 // import { useForm } from "react-hook-form";
 import BreadcrumbComp from "@/app/(DashboardLayout)/layout/shared/breadcrumb/BreadcrumbComp";
-import Media from "@/app/components/apps/ecommerce/addProduct/Media";
+// import Media from "@/app/components/apps/ecommerce/addProduct/Media";
 import Variation from "@/app/components/apps/ecommerce/addProduct/Variation";
 import Pricing from "@/app/components/apps/ecommerce/addProduct/Pricing";
 import { Button } from "flowbite-react";
@@ -58,12 +58,12 @@ const AddProduct = () => {
                 setValue={setValue}
                 getValues={getValues}
               />
-              <Media
+              {/* <Media
                 register={register}
                 errors={errors}
                 setValue={setValue}
                 getValues={getValues}
-              />
+              /> */}
               <Variation
                 register={register}
                 errors={errors}

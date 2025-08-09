@@ -133,24 +133,28 @@ const ProductData = ({
 
                 {/* Display selected categories */}
                 <div className="mt-2 flex gap-1 flex-wrap">
-                  {(field.value || []).map((cat) => (
-                    <span
-                      key={cat.id}
-                      className="bg-lightprimary py-1 px-2 rounded-full text-primary flex items-center"
-                    >
-                      {cat.name}
-                      <HiOutlineX
-                        size={12}
-                        className="cursor-pointer ml-1"
-                        onClick={() => {
-                          const newValue = (field.value || []).filter(
-                            (c) => c.id !== cat.id
-                          );
-                          field.onChange(newValue);
-                        }}
-                      />
-                    </span>
-                  ))}
+                  {(field.value || []).map((cat) => {
+                    // console.log(cat);
+
+                    return (
+                      <span
+                        key={cat.id}
+                        className="bg-lightprimary py-1 px-2 rounded-full text-primary flex items-center"
+                      >
+                        {cat.name}
+                        <HiOutlineX
+                          size={12}
+                          className="cursor-pointer ml-1"
+                          onClick={() => {
+                            const newValue = (field.value || []).filter(
+                              (c) => c.id !== cat.id
+                            );
+                            field.onChange(newValue);
+                          }}
+                        />
+                      </span>
+                    );
+                  })}
                 </div>
               </>
             )}
