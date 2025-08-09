@@ -9,8 +9,8 @@ const Media = ({ register, errors, setValue, getValues }) => {
   const fileInputRef = useRef(null);
   // console.log(getValues());
 
-  const [files, setFiles] = useState([]);
-  const [previews, setPreviews] = useState([]);
+  // const [files, setFiles] = useState([]);
+  // const [previews, setPreviews] = useState([]);
   const [images, setImages] = useState(getValues("product_images") || []);
 
   const handleFileChange = async (e) => {
@@ -55,14 +55,14 @@ const Media = ({ register, errors, setValue, getValues }) => {
   };
 
   const removeFile = async (imageUrl, id) => {
-    console.log(imageUrl);
+    // console.log(imageUrl);
 
     const { success, data, error } = await removeImages({ imageUrl, id });
     if (success) {
       setImages((prevImages) =>
         prevImages.filter((img) => img.url !== imageUrl)
       );
-      console.log("Image removed successfully:", data);
+      // console.log("Image removed successfully:", data);
     }
     // console.log(data);
     // console.log(error);
@@ -74,11 +74,11 @@ const Media = ({ register, errors, setValue, getValues }) => {
     // setValue("media", updatedFiles, { shouldValidate: true });
   };
 
-  const clearAllFiles = () => {
-    setFiles([]);
-    setPreviews([]);
-    setValue("media", [], { shouldValidate: true });
-  };
+  // const clearAllFiles = () => {
+  //   setFiles([]);
+  //   setPreviews([]);
+  //   setValue("media", [], { shouldValidate: true });
+  // };
   const renderFilePreview = () => {
     if (images.length === 0) return null;
 
@@ -176,7 +176,7 @@ const Media = ({ register, errors, setValue, getValues }) => {
               drop
             </p>
             <p className="text-xs text-darklink">
-              SVG, PNG, JPG, GIF, PDF, DOCX, ZIP (MAX. 800x400px)
+              SVG, PNG, JPG (MAX. 800x400px)
             </p>
           </div>
           <FileInput
@@ -190,13 +190,13 @@ const Media = ({ register, errors, setValue, getValues }) => {
         </Label>
       </div>
 
-      {previews.length > 0 && (
+      {/* {previews.length > 0 && (
         <div className="mt-4 flex justify-end">
           <Button size="xs" color="failure" onClick={clearAllFiles}>
             Clear All
           </Button>
         </div>
-      )}
+      )} */}
 
       {renderFilePreview()}
     </CardBox>

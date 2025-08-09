@@ -2,7 +2,7 @@
 import CardBox from "@/app/components/shared/CardBox";
 import { Label, TextInput } from "flowbite-react";
 import React, { useState } from "react";
-import TiptapEdit from "../editor/TiptapEdit";
+// import TiptapEdit from "../editor/TiptapEdit";
 
 const GeneralDetail = () => {
   const [text, setText] = useState("");
@@ -31,7 +31,7 @@ const GeneralDetail = () => {
           <div className="mb-2 block">
             <Label htmlFor="desc" value="Description" />
           </div>
-           <TiptapEdit/>
+          {/* <TiptapEdit/> */}
           <small className="text-xs text-darklink dark:text-bodytext">
             Set a description to the product for better visibility.
           </small>
