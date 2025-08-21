@@ -154,21 +154,23 @@ const ProductTablelist = () => {
                       />
                     </Table.Cell>
                     <Table.Cell className="whitespace-nowrap lg:min-w-auto min-w-[250px]">
-                      <div className="flex  gap-3 items-center">
-                        {/* <img
+                      <Link href={`/apps/ecommerce/editproduct/${item.id}`}>
+                        <div className="flex  gap-3 items-center">
+                          {/* <img
                           src={item.photo}
                           alt="icon"
                           width={56}
                           height={56}
                           className="h-14 w-14 rounded-full"
                         /> */}
-                        <div className="text-no-wrap">
-                          <h6 className="text-base">{item.product_name}</h6>
-                          <p className="text-sm text-darklink">
-                            {item.product_code}
-                          </p>
+                          <div className="text-no-wrap">
+                            <h6 className="text-base">{item.product_name}</h6>
+                            <p className="text-sm text-darklink">
+                              {item.product_code}
+                            </p>
+                          </div>
                         </div>
-                      </div>
+                      </Link>
                     </Table.Cell>
                     <Table.Cell className="whitespace-nowrap">
                       <p className="text-sm text-darklink font-medium">

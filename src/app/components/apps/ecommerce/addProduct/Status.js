@@ -3,8 +3,12 @@ import CardBox from "@/app/components/shared/CardBox";
 import { Badge, Label, Select } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 
-const Status = ({ register, setValue, watch }) => {
-  const [selectedStatus, setSelectedStatus] = useState("Inactive");
+const Status = ({ register, setValue, getValues, watch }) => {
+  // console.log(getValues("status"));
+
+  const [selectedStatus, setSelectedStatus] = useState(
+    getValues("status") || "Inactive"
+  );
 
   // If using react-hook-form, sync form state
   useEffect(() => {

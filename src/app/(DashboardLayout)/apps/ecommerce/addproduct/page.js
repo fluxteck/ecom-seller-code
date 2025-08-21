@@ -32,6 +32,7 @@ const AddProduct = () => {
 
   const submitAndHandle = async (formData) => {
     // console.log(formData);
+    // console.log(getValues());
 
     const { result, error } = await onSubmit(formData);
 

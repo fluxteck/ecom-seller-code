@@ -42,6 +42,8 @@ const EditProduct = () => {
     error,
     data,
   } = editProduct(id);
+  // console.log(getValues());
+
   // console.log(getValues("variations"));
   // console.log(error);
 
