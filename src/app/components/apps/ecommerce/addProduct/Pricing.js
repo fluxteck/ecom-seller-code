@@ -2,11 +2,16 @@
 import React, { useEffect, useState } from "react";
 import CardBox from "@/app/components/shared/CardBox";
 import { Label, Radio, RangeSlider, Select, TextInput } from "flowbite-react";
+import { get } from "lodash";
 
 const Pricing = ({ register, setValue, watch, getValues, errors }) => {
-  const [discountType, setDiscountType] = useState("no-discount");
+  const [discountType, setDiscountType] = useState(
+    getValues("discount_type") || "no-discount"
+  );
   // console.log(getValues("discount_type"));
-
+  useEffect(() => {
+    setDiscountType(getValues("discount_type") || "no-discount");
+  }, [getValues("discount_type")]);
   const handleRadioChange = (event) => {
     setDiscountType(event.target.value);
     if (event.target.value === "no-discount") {
@@ -17,9 +22,9 @@ const Pricing = ({ register, setValue, watch, getValues, errors }) => {
   };
 
   // Optional: Keep form in sync if the discount type changes from outside
-  useEffect(() => {
-    setValue("discount_type", discountType);
-  }, [discountType, setValue]);
+  // useEffect(() => {
+  //   setValue("discount_type", discountType);
+  // }, [discountType, setValue]);
 
   return (
     <CardBox>
